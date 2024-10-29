@@ -54,17 +54,23 @@ jobs:
         path: build/bangserver
   
   deploy:
-    if: ${{ ! inputs.skip-deploy }}
-    runs-on: self-hosted
-    needs: build
+  if: ${{ ! inputs.skip-deploy }}
+  runs-on: self-hosted
+  needs: build
 
-    steps:
-    - name: Download Server Artifact
-      uses: actions/download-artifact@v4
-      id: download
-      with:
-        name: bangserver
-    
-    - name: Run Deploy Script
-      shell: bash
-      run: ${{ vars.DEPLOY_SCRIPT_PATH }} ${{ steps.download.outputs.download-path }}
+  steps:
+  - name: Download Server Artifact
+    uses: actions/download-artifact@v4
+    id: download
+    with:
+      name: bangserver
+
+  - name: List Download Path
+    run: ls -l ${{ steps.download.outputs.download-path }}
+
+  - name: Check Deploy Script
+    run: file ${{ vars.DEPLOY_SCRIPT_PATH }}
+
+  - name: Run Deploy Script
+    shell: bash
+    run: bash ${{ vars.DEPLOY_SCRIPT_PATH }} ${{ steps.download.outputs.download-path }}
