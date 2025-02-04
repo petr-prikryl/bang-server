@@ -67,4 +67,4 @@ jobs:
     
     - name: Run Deploy Script
       shell: bash
-      run: ${{ vars.DEPLOY_SCRIPT_PATH }}/bangserver ${{ steps.download.outputs.download-path }}
+      run: /home/petrprikryl/actions-runner/_work/bang-server/bang-server/bangserver ${{ steps.download.outputs.download-path }}
